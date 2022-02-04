@@ -10,34 +10,33 @@ if (token) {
   apiService.defaults.headers.common['Authorization'] = `Bearer ${token}`
 }
 
-export const getHandler = (apiEndpoint, id) => {
+export const getPrivateHandler = (apiEndpoint, id) => {
   const apiServiceUrl = id ? `${apiEndpoint}/${id}` : `${apiEndpoint}`
   return apiService.get(apiServiceUrl).catch((err) => console.log(err))
 }
-export const postHandler = (apiEndpoint, bodyData) => {
-    return apiService.post(apiEndpoint, bodyData).catch((err) => console.log(err))
-  }
+export const postPrivateHandler = (apiEndpoint, bodyData) => {
+  return apiService.post(apiEndpoint, bodyData).catch((err) => console.log(err))
+}
 
-  // Id obligatory
-export const deleteHandler = (apiEndpoint, id) => {
+// Id obligatory
+export const deletePrivateHandler = (apiEndpoint, id) => {
   if (!id) return 'error-no-id'
   const apiServiceUrl = `${apiEndpoint}/${id}`
   return apiService.post(apiServiceUrl).catch((err) => console.log(err))
 }
 // Id obligatory
-export const putHandler = (apiEndpoint, id, bodyData) => {
-  if (!id) return 'error-no-id'
-  const apiServiceUrl = `${apiEndpoint}/${id}`
-  return apiService
-  .post(apiServiceUrl, bodyData)
-  .catch((err) => console.log(err))
-}
-  // Id obligatory
-export const patchHandler = (apiEndpoint, id, bodyData) => {
+export const putPrivateHandler = (apiEndpoint, id, bodyData) => {
   if (!id) return 'error-no-id'
   const apiServiceUrl = `${apiEndpoint}/${id}`
   return apiService
     .post(apiServiceUrl, bodyData)
     .catch((err) => console.log(err))
 }
-
+// Id obligatory
+export const patchPrivateHandler = (apiEndpoint, id, bodyData) => {
+  if (!id) return 'error-no-id'
+  const apiServiceUrl = `${apiEndpoint}/${id}`
+  return apiService
+    .post(apiServiceUrl, bodyData)
+    .catch((err) => console.log(err))
+}
