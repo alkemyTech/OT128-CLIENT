@@ -1,6 +1,7 @@
 import { Route, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
+import BackOfficeHome from '../Components/BackOffice/BackOfficeHome'
 import ActivitiesForm from '../Components/Activities/ActivitiesForm'
 import CategoriesForm from '../Components/Categories/CategoriesForm'
 import NewsForm from '../Components/News/NewsForm'
@@ -33,118 +34,150 @@ export const PrivateRoute = ({ children, ...rest }) => {
 }
 
 export const privateRoutes = [
-  {
-    path: '/backoffice',
-    exact: true,
-  },
-  {
-    path: '/backoffice/activities',
-    exact: true,
-    component: ActivitiesScreen,
-  },
-  {
-    path: '/backoffice/activities/create',
-    exact: false,
-    component: ActivitiesForm,
-  },
-  {
-    path: '/backoffice/activities/create/:id',
-    exact: false,
-    component: ActivitiesForm,
-  },
-  {
-    path: '/backoffice/categories',
-    exact: true,
-    component: CategoriesHome,
-  },
-  {
-    path: '/backoffice/categories/create',
-    exact: false,
-    component: CategoriesForm,
-  },
-  {
-    path: '/backoffice/categories/create/:id',
-    exact: false,
-    component: CategoriesForm,
-  },
-  {
-    path: '/backoffice/news',
-    exact: true,
-    component: NewsTable,
-  },
-  {
-    path: '/backoffice/news/create',
-    exact: false,
-    component: NewsForm,
-  },
-  {
-    path: '/backoffice/news/create/:newsId',
-    exact: false,
-    component: NewsForm,
-  },
-  {
-    path: '/backoffice/members',
-    exact: true,
-    component: MembersScreen,
-  },
-  {
-    path: '/backoffice/members/create',
-    exact: false,
-    component: MembersForm,
-  },
-  {
-    path: '/backoffice/members/create/:id',
-    exact: false,
-    component: MembersForm,
-  },
-  {
-    path: '/backoffice/slides',
-    exact: true,
-    component: SlidesScreen,
-  },
-  {
-    path: '/backoffice/slides/create',
-    exact: false,
-    component: SlidesForm,
-  },
-  {
-    path: '/backoffice/slides/create/:slideId',
-    exact: false,
-    component: SlidesForm,
-  },
-  {
-    path: '/backoffice/create-testimonials',
-    exact: false,
-    component: TestimonialForm,
-  },
-  {
-    path: '/backoffice/create-testimonials/:id',
-    exact: false,
-    component: TestimonialForm,
-  },
-  {
-    path: '/backoffice/create-project',
-    exact: false,
-    component: ProjectsForm,
-  },
-  {
-    path: '/backoffice/organization',
-    exact: true,
-    component: OrganizationScreen,
-  },
-  {
-    path: '/backoffice/organization/edit',
-    exact: false,
-    component: OrganizationForm,
-  },
-  {
-    path: '/backoffice/users',
-    exact: true,
-    component: UsersHome,
-  },
-  {
-    path: '/backoffice/users/create',
-    exact: false,
-    component: UserForm,
-  },
+  <PrivateRoute key="backoffice" exact path="/backoffice">
+    <BackOfficeHome />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeActivitiesCreateId"
+    exact
+    path="/backoffice/activities/create/:id"
+  >
+    <ActivitiesForm />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeActivitiesCreate"
+    exact
+    path="/backoffice/activities/create"
+  >
+    <ActivitiesForm />
+  </PrivateRoute>,
+
+  <PrivateRoute key="backofficeActivities" exact path="/backoffice/activities">
+    <ActivitiesScreen />
+  </PrivateRoute>,
+
+  <PrivateRoute key="backofficeCategories" exact path="/backoffice/categories">
+    <CategoriesHome />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeCategoriesForm"
+    exact
+    path="/backoffice/categories/create"
+  >
+    <CategoriesForm />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeCategoriesFormCreate"
+    path="/backoffice/categories/create/:id"
+  >
+    <CategoriesForm />
+  </PrivateRoute>,
+
+  <PrivateRoute key="backofficeNews" exact path="/backoffice/news">
+    <NewsTable />
+  </PrivateRoute>,
+
+  <PrivateRoute key="backofficeNewsCreate" exact path="/backoffice/news/create">
+    <NewsForm />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeNewsCreateId"
+    path="/backoffice/news/create/:newsId"
+  >
+    <NewsForm />
+  </PrivateRoute>,
+
+  <PrivateRoute key="backofficeMembers" exact path="/backoffice/members">
+    <MembersScreen />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeMembersCreate"
+    exact
+    path="/backoffice/members/create"
+  >
+    <MembersForm />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeMembersCreateId"
+    path="/backoffice/members/create/:id"
+  >
+    <MembersForm />
+  </PrivateRoute>,
+
+  <PrivateRoute key="backofficeSlides" exact path="/backoffice/slides">
+    <SlidesScreen />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeSlidesCreate"
+    exact
+    path="/backoffice/slides/create"
+  >
+    <SlidesForm />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeSlidesCreateId"
+    path="/backoffice/slides/create/:slidesId"
+  >
+    <SlidesForm />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeCreate-testimonials"
+    exact
+    path="/backoffice/create-testimonials"
+  >
+    <TestimonialForm />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeCreateTestimonialsId"
+    path="/backoffice/create-testimonials/:id"
+  >
+    <TestimonialForm />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeCreateProject"
+    exact
+    path="/backoffice/create-project"
+  >
+    <ProjectsForm />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeOrganization"
+    exact
+    path="/backoffice/organization"
+  >
+    <OrganizationScreen />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeOrganizationEdit"
+    exact
+    path="/backoffice/organization/edit"
+  >
+    <OrganizationForm />
+  </PrivateRoute>,
+
+  <PrivateRoute key="backofficeUsers" exact path="/backoffice/users">
+    <UsersHome />
+  </PrivateRoute>,
+
+  <PrivateRoute
+    key="backofficeUsersCreate"
+    exact
+    path="/backoffice/users/create"
+  >
+    <UserForm />
+  </PrivateRoute>,
 ]

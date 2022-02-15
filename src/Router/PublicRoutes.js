@@ -12,22 +12,27 @@ import ContactHome from '../Components/Contact/ContactHome'
 import { Detail } from '../Components/Activities/Detail/Detail'
 import NotFound from '../Components/NotFound/NotFound'
 
-
 export const publicRoutes = [
   <Route exact path="/" component={Index} key="Index" />,
-  <Route path="/contacto" component={ContactHome} key="ContactHome" />,
-  <Route path="/novedades/:newsId" component={NewsDetail} key="NewsDetail" />,
-  <Route path="/nosotros" component={About} key="About" />,
-  <Route path="/create-user" component={UserForm} key="UserForm" />,
+  <Route exact path="/contacto" component={ContactHome} key="ContactHome" />,
+  <Route exact path="/news" component={NewsList} key="NewsList" />,
+  <Route path="/news/:newsId" component={NewsDetail} key="NewsDetail" />,
+  <Route exact path="/nosotros" component={About} key="About" />,
+  <Route exact path="/create-user" component={UserForm} key="UserForm" />,
   <Route
+    exact
     path="/school-campaign"
     component={SchoolCampaign}
     key="SchoolCampaign"
   />,
-  <Route path="/toys-campaign" component={ToysCampaign} key="ToysCampaign" />,
-  <Route path="/login" component={LoginForm} key="LoginForm" />,
-  <Route path="/activities" component={Activities} key="Activities" />,
-  <Route path="/news" component={NewsList} key="NewsList" />,
+  <Route
+    exact
+    path="/toys-campaign"
+    component={ToysCampaign}
+    key="ToysCampaign"
+  />,
+  <Route exact path="/login" component={LoginForm} key="LoginForm" />,
+  <Route exact path="/activities" component={Activities} key="Activities" />,
   <Route path="/activities/:id" component={Detail} key="Detail" />,
-  <Route exact path="/404" component={NotFound} />,
+  <Route path="/404" component={NotFound} key="NotFound" />,
 ]

@@ -4,7 +4,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom'
-import BackOfficeHome from '../Components/BackOffice/BackOfficeHome'
+import { privateRoutes } from './PrivateRoutes'
 import { publicRoutes } from './PublicRoutes'
 
 export const Routes = () => {
@@ -12,7 +12,7 @@ export const Routes = () => {
     <Router>
       <Switch>
         {publicRoutes}
-        <Route path="/backoffice" component={BackOfficeHome} />
+        {privateRoutes}
         <Route path="*">
           <Redirect to="/404" />
         </Route>
