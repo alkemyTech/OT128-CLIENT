@@ -13,7 +13,7 @@ export const Routes = () => {
       <Switch>
         {publicRoutes}
         {privateRoutes}
-        <Route path="*">
+        <Route path="/*">
           <Redirect to="/404" />
         </Route>
       </Switch>

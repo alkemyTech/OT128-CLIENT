@@ -33,6 +33,6 @@ export const publicRoutes = [
   />,
   <Route exact path="/login" component={LoginForm} key="LoginForm" />,
   <Route exact path="/activities" component={Activities} key="Activities" />,
-  <Route path="/activities/:id" component={Detail} key="Detail" />,
+  <Route exact path="/activities/:id" component={Detail} key="Detail" />,
   <Route path="/404" component={NotFound} key="NotFound" />,
 ]
