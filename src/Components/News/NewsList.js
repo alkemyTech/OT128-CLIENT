@@ -57,10 +57,10 @@ const NewsList = ({ from }) => {
             </Typography>
           </Box>
           <Grid
-            sx={{
+            style={{
               justifyContent: 'space-evenly',
-              py: 2,
-              mb: 4,
+              padding: '20px 0',
+              marginBottom: '40px',
             }}
             container
             rows={{ xs: 1, sm: 8, md: 6 }}
@@ -91,7 +91,7 @@ const NewsList = ({ from }) => {
 
             {from === 'newsHome' && (
               <Grid
-                Item
+                item
                 xs={12}
                 sx={{ justifyContent: 'center', display: 'flex' }}
               >
@@ -113,3 +113,5 @@ const NewsList = ({ from }) => {
 }
 
 export default NewsList
+
+

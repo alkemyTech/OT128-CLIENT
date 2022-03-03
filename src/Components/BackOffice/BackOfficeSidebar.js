@@ -10,6 +10,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ListItem from '@mui/material/ListItem'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Button } from '@mui/material'
 
 const drawerWidth = 220
 
@@ -31,7 +32,7 @@ const links = [
     path: '/backoffice/users',
   },
   {
-    name: 'Catetegorías',
+    name: 'Categorías',
     path: '/backoffice/categories',
   },
   {
@@ -91,7 +92,7 @@ export default function Sidebar() {
         variant="temporary"
         anchor="right"
         open={open}
-        onBlur={handleDrawerClose}
+        // onBlur={handleDrawerClose}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -105,8 +106,9 @@ export default function Sidebar() {
         <Divider />
         <List>
           {links.map((link) => (
-            <ListItem button key={link.name} style={{ padding: '0' }}>
-              <Link
+            <ListItem key={link.name} style={{ padding: '0' }}>
+              <Button
+                component={Link}
                 to={link.path}
                 style={{
                   textDecoration: 'none',
@@ -116,7 +118,7 @@ export default function Sidebar() {
                 }}
               >
                 {link.name}
-              </Link>
+              </Button>
             </ListItem>
           ))}
         </List>

@@ -43,8 +43,12 @@ function Index() {
     <Spinner />
   ) : (
     <div>
+      {data ? (
+        <Title image={'/images/portada somos mas.png'}>
+          {data.welcome_text}
+        </Title>
+      ) : null}
       <Container>
-        {data ? <Title image={data.logo}>{data.welcome_text}</Title> : null}
         <NewsList from="home" />
         <TestimonialsList from="home" />
       </Container>

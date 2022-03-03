@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { LinearProgressFeedback } from '../LinearProgress'
 import {
+  getActivity,
   postActivity,
   putActivity,
 } from '../../Services/apiServices/activitiesApiService'
@@ -21,17 +22,63 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
+import getBase64FromUrl from '../../utils/apiToBase64'
+import Spinner from '../Spinner'
 
 const ActivitiesForm = () => {
   let id = useParams().id
   const [responseServer, setResponseServer] = useState(undefined)
-  const [isLoading, setIsLoading] = useState(false)
+  const [activity, setActivity] = useState('')
+  const [loader, setLoader] = useState(false)
+  const [urlImage, setUrlImage] = useState('')
+  const [previewImg, setPreviewImg] = useState('')
+  const [baseImage, setBaseImage] = useState('')
   const history = useHistory()
 
+  useEffect(() => {
+    if (!id) return
+    ;(async () => {
+      setLoader(true)
+
+      const response = await getActivity(id)
+      if (response.error) {
+        alertServiceError(
+          response.message,
+          'No se pudo obtener la información solicitada',
+        )
+        history.push('/backoffice/activities')
+      }
+
+      const dataActivity = response.data?.data
+
+      if (dataActivity) {
+        setActivity(dataActivity)
+      } else {
+        alertServiceError(
+          'No se pudo cargar la actividad buscada',
+          'ID inválido',
+        )
+        history.push('/backoffice/activities')
+      }
+
+      setLoader(false)
+      setUrlImage(await getBase64FromUrl(activity.image))
+    })()
+  }, [history, id])
+
+  useEffect(() => {
+    if (!baseImage) return
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setPreviewImg(reader.result)
+    }
+    reader.readAsDataURL(baseImage)
+  }, [baseImage])
+
   const formikInitialValues = {
-    name: '',
-    description: '',
-    image: undefined,
+    name: activity.name || '',
+    description: activity.description || '',
+    image: urlImage || undefined,
   }
   const formikValidationSchema = Yup.object({
     name: Yup.string().required('El  nombre es requerido.'),
@@ -48,7 +95,7 @@ const ActivitiesForm = () => {
   })
 
   const handleSubmit = async (formData) => {
-    setIsLoading(true)
+    setLoader(true)
     const imageBase64 = await toBase64(formData.image)
     if (id) {
       setResponseServer(
@@ -73,13 +120,13 @@ const ActivitiesForm = () => {
         'Se produjo un error al crear o editar una actividad.',
       )
     }
-    setIsLoading(false)
+    setLoader(false)
   }
 
   useEffect(() => {
     if (responseServer?.error) {
       alertServiceError('Error', responseServer.message)
-      setIsLoading(false)
+      setLoader(false)
     } else if (responseServer?.data) {
       alertServiceInfoTimer(
         'top',
@@ -88,7 +135,7 @@ const ActivitiesForm = () => {
         false,
         3000,
       )
-      setIsLoading(false)
+      setLoader(false)
       setTimeout(() => {
         setResponseServer(undefined)
         history.push('/backoffice/activities')
@@ -113,10 +160,20 @@ const ActivitiesForm = () => {
         touched,
       }) => (
         <Container>
-          <Box sx={{ boxShadow: 5, p: 5, mt: 2 }}>
+          <Box sx={{ boxShadow: 5, p: 5, mt: 2, background: 'white' }}>
             <Typography variant="h4">
               {!id ? 'Crear Actividad' : 'Editar Actividad'}
             </Typography>
+
+            {previewImg || activity.image ? (
+              <img
+                id="imageid"
+                style={{ maxWidth: '100%' }}
+                src={previewImg || activity.image}
+                alt=""
+              />
+            ) : null}
+
             <form onSubmit={handleSubmit}>
               <TextField
                 margin="normal"
@@ -148,6 +205,7 @@ const ActivitiesForm = () => {
                   style={{ display: 'none' }}
                   onChange={(e) => {
                     setFieldValue('image', e.target.files[0])
+                    setBaseImage(e.currentTarget.files[0])
                   }}
                 />
                 <Button fullWidth variant="outlined" component="span">
@@ -159,11 +217,11 @@ const ActivitiesForm = () => {
                 type="submit"
                 variant="contained"
                 fullWidth
-                disabled={isLoading}
+                disabled={!setLoader}
               >
                 {id ? 'Editar actividad' : 'Crear actividad'}
               </Button>
-              <LinearProgressFeedback isActive={isLoading} />
+              <LinearProgressFeedback isActive={!setLoader} />
             </form>
           </Box>
         </Container>

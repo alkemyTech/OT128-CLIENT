@@ -14,7 +14,7 @@ const authDataError = {
 }
 
 const authDataSuccess = {
-  status: 'success',
+  status: 'fullfilled',
 }
 
 const setupRender = (authData) => {

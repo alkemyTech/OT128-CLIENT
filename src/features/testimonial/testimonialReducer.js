@@ -14,7 +14,7 @@ export const getTestimonial = createAsyncThunk(
     try {
       const response = await getTestimony()
       if (response.data.success) {
-        return response.data.data
+        return response.data.data.reverse()
       } else {
         return rejectWithValue({ error: 'not success' }) // if error is no token the user input data is wrong
       }

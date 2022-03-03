@@ -1,25 +1,61 @@
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import {
-  postPrivateHandler,
-  putPrivateHandler,
-} from '../../Services/BaseHTTP/privateApiService'
-
 import Swal from 'sweetalert2'
+import { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
+import {
+  getUsers,
+  postUsers,
+  putUsers,
+} from '../../Services/apiServices/usersApiService'
+import { alertServiceError } from '../AlertService'
+import Spinner from '../Spinner'
 
-import { useState } from 'react'
+const UserForm = () => {
+  const [usuario, setUsuario] = useState()
+  const { id } = useParams()
+  const [loader, setLoader] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const history = useHistory()
 
-const UserForm = ({usuario = undefined}) => {
-  const url = process.env.REACT_APP_API_USERS_GET
+  useEffect(() => {
+    if (!id) return
+    ;(async () => {
+      setLoader(true)
 
-  const [display, setDisplay] = useState(false)
+      const response = await getUsers(id)
+      if (response.error) {
+        alertServiceError(
+          response.message,
+          'No se pudo obtener la información solicitada',
+        )
+        setIsEditing(false)
+        history.push('/backoffice/users')
+      }
 
+      const dataUser = response.data?.data
 
-  return (
+      if (dataUser) {
+        setUsuario(dataUser)
+        setIsEditing(true)
+      } else {
+        alertServiceError('No se pudo cargar la categoría', 'ID inválido')
+        history.push('/backoffice/users')
+      }
+
+      setLoader(false)
+    })()
+  }, [history, id])
+
+  return loader ? (
+    <Box sx={{ mt: '4rem' }}>
+      <Spinner />
+    </Box>
+  ) : (
     <Box sx={{ pt: '60px', pl: 2 }}>
       <Formik
+        enableReinitialize
         initialValues={{
           id: usuario ? usuario.id : '',
           name: usuario ? usuario?.name : '',
@@ -40,9 +76,9 @@ const UserForm = ({usuario = undefined}) => {
           }).then((result) => {
             if (result.isConfirmed) {
               if (usuario?.id) {
-                putPrivateHandler(url, usuario.id, values)
+                putUsers(usuario.id, values)
               } else {
-                postPrivateHandler(url, values)
+                postUsers(values)
               }
               Swal.fire('Datos procesados', '', 'success')
             }
@@ -71,51 +107,53 @@ const UserForm = ({usuario = undefined}) => {
         })}
       >
         {(formik) => (
-          <Form className="form-container">
-            <Field
-              name="name"
-              type="text"
-              placeholder="name"
-              className="input-field"
-            />
-            <ErrorMessage name="name" component="span" />
-            <Field
-              name="email"
-              type="text"
-              placeholder="email"
-              className="input-field"
-            />
-            <ErrorMessage name="email" component="span" />
-            <label className="strong">Seleccionar rol:</label>
-            <Field
-              name="role_id"
-              as="select"
-              type="text"
-              className="input-field"
-            >
-              <option value="" disabled>
-                Select the role
-              </option>
-              <option value="1">Administrador</option>
-              <option value="2">Usuario</option>
-            </Field>
-            <ErrorMessage name="role_id" component="span" />
-            <label htmlFor="avatar" className="strong">
-              Subir imagen de perfil:
-            </label>
-            <Field name="photo" type="file" className="input-field" />
-            <ErrorMessage name="photo" component="span" />
-            <Field
-              name="description"
-              type="text"
-              placeholder="description"
-              className="input-field"
-            />
-            <ErrorMessage name="description" component="span" />
-            <button className="submit-btn" type="submit">
-              Send
-            </button>
-          </Form>
+          <Box sx={{ background: 'white', py: 2 }}>
+            <Form className="form-container">
+              <Field
+                name="name"
+                type="text"
+                placeholder="name"
+                className="input-field"
+              />
+              <ErrorMessage name="name" component="span" />
+              <Field
+                name="email"
+                type="text"
+                placeholder="email"
+                className="input-field"
+              />
+              <ErrorMessage name="email" component="span" />
+              <label className="strong">Seleccionar rol:</label>
+              <Field
+                name="role_id"
+                as="select"
+                type="text"
+                className="input-field"
+              >
+                <option value="" disabled>
+                  Seleccionar un rol
+                </option>
+                <option value="1">Administrador</option>
+                <option value="2">Usuario</option>
+              </Field>
+              <ErrorMessage name="role_id" component="span" />
+              <label htmlFor="avatar" className="strong">
+                Subir imagen de perfil:
+              </label>
+              <Field name="photo" type="file" className="input-field" />
+              <ErrorMessage name="photo" component="span" />
+              <Field
+                name="description"
+                type="text"
+                placeholder="description"
+                className="input-field"
+              />
+              <ErrorMessage name="description" component="span" />
+              <button className="submit-btn" type="submit">
+                {isEditing ? 'Confirmar edición' : 'Enviar'}
+              </button>
+            </Form>
+          </Box>
         )}
       </Formik>
 
@@ -133,4 +171,4 @@ const UserForm = ({usuario = undefined}) => {
   )
 }
 
-export default UserForm 
+export default UserForm

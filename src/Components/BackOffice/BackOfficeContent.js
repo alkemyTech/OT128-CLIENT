@@ -9,7 +9,7 @@ const BackOfficeContent = () => {
       component="div"
       gutterBottom
     >
-      Bienvenido al backoffice de somos más
+      Bienvenido al backoffice de Somos más
     </Typography>
   )
 }

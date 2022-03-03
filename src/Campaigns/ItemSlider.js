@@ -48,6 +48,7 @@ const ItemSlider = ({ item }) => {
           textAlign: 'center',
           display: { xs: 'none', lg: 'block' },
         }}
+        variant="h5"
       >
         {text}
       </Typography>

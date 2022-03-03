@@ -4,7 +4,14 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { ErrorMessage, Formik } from 'formik'
 import * as Yup from 'yup'
-import { Container, TextField, Box, Button, Input } from '@mui/material'
+import {
+  Container,
+  TextField,
+  Box,
+  Button,
+  Input,
+  Typography,
+} from '@mui/material'
 import { toBase64 } from '../../utils/toBase64'
 import Spinner from '../Spinner'
 import {
@@ -98,7 +105,6 @@ const CategoriesForm = () => {
       ...values,
       image: base64,
     }
-    console.log(newToSend.image)
     let response
     //depending of the state of isEditing call post or put
     if (!isEditing) {
@@ -133,7 +139,7 @@ const CategoriesForm = () => {
             sendCategory(values)
             setCategory({})
             setPreviewImg('')
-            history.push('/backoffice/create-category')
+            history.push('/backoffice/categories')
           }}
         >
           {({
@@ -146,8 +152,20 @@ const CategoriesForm = () => {
             touched,
           }) => (
             <Container>
-              <Box sx={{ boxShadow: 5, p: 5, mt: 2 }}>
-                <h1>{isEditing ? 'Editar Categoría' : 'Crear Categoría'}</h1>
+              <Box
+                sx={{
+                  boxShadow: 5,
+                  p: 5,
+                  mt: 2,
+                  background: 'white',
+                  textAlign: 'center',
+                }}
+              >
+                <Typography variant="h4">
+                  {isEditing
+                    ? 'Formulario de edición'
+                    : 'Formulario de creación'}
+                </Typography>
                 {previewImg || category.image ? (
                   <img
                     id="imageid"

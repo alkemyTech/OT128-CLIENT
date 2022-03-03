@@ -1,5 +1,4 @@
 .container {
-
   margin: auto;
   font: 14px;
   text-align: center;
@@ -195,7 +194,7 @@
   .col {
     display: flex;
     flex-direction: row;
-    padding: 1rem;
+    padding: 0.3rem;
     color: #eee;
   }
 

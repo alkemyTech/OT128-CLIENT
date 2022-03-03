@@ -164,7 +164,7 @@ export const FormLogic = ({ classes, authData }) => {
                   Error, el usuario no se encuentra registrado
                 </div>
               )}
-              {authData?.status === 'success' && <div>Bienvenido</div>}
+              {authData?.status === 'fulfilled' && <div>Bienvenido</div>}
               <Grid container>
                 <Grid item>
                   <Link component={RouterLink} to="/register">

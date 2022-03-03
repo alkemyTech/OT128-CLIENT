@@ -3,3 +3,11 @@
   box-sizing: border-box;
   font-family: 'Roboto';
 }
+
+body {
+  margin-top: 4.4rem !important;
+}
+
+body.swal2-no-backdrop .swal2-container.swal2-center {
+  min-width: 80%;
+}

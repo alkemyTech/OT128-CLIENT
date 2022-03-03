@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -7,14 +8,19 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { Link as RouterLink, Redirect } from 'react-router-dom'
+
+import { debounce } from 'lodash'
+
 import { FormTextInput as TextInput } from './VisualComponents/Inputs'
+import RegisterMap from './RegisterMap'
+
+import { Link as RouterLink, Redirect } from 'react-router-dom'
+
 import { userRegister } from './../../features/auth/authReducer'
 import { useDispatch, useSelector } from 'react-redux'
-import RegisterMap from './RegisterMap'
-import { debounce } from 'lodash'
 
 export default function RegisterForm() {
   const authData = useSelector(({ auth }) => auth)
@@ -23,32 +29,14 @@ export default function RegisterForm() {
     return <Redirect to="/" />
   }
 
-  return <FormLogic authData={authData} />
+  return <FormLogic />
 }
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}))
 
 const FormLogic = () => {
   const [ubication, setUbication] = useState('Argentina')
+
   const classes = useStyles()
+
   const dispatch = useDispatch()
 
   const hanldeUbication = debounce((value) => {
@@ -64,17 +52,19 @@ const FormLogic = () => {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '2rem',
+        padding: '1rem',
       }}
     >
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
+        <div className={classes.intro}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Registrarse
+          </Typography>
+        </div>
         <Formik
           initialValues={{
             name: '',
@@ -84,17 +74,27 @@ const FormLogic = () => {
             mailerConsent: false,
           }}
           validationSchema={Yup.object({
-            name: Yup.string().required('Required'),
+            name: Yup.string().required('Campo obligatorio'),
 
             email: Yup.string()
-              .email('Invalid email address')
-              .required('Required'),
+              .email('Correo electrónico incorrecto')
+              .required('Campo obligatorio'),
+
             password: Yup.string()
-              .required('Required')
+              .required('Campo obligatorio')
               .matches(
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&.*])(?=.{8,})/,
-                'Password must contain at least one upper case character, one lower case character, one number, and must be at least 8 characters long',
+                /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&.*])(?=.{6,})/,
+                'La contraseña debe tener una longitud mínima de 6 caracteres, y contener al menos un número, una letra y un símbolo (por ejemplo: @#$%)',
               ),
+
+            confirmPassword: Yup.string()
+              .required('Campo obligatorio')
+              .oneOf(
+                [Yup.ref('password'), null],
+                'La contraseñas no coinciden',
+              ),
+
+            direction: Yup.string().required('Campo obligatorio'),
           })}
           onSubmit={(values) => {
             const { name, email, password } = values
@@ -106,58 +106,62 @@ const FormLogic = () => {
               <TextInput
                 variant="outlined"
                 margin="normal"
-                required
                 fullWidth
                 id="name"
-                label="name"
+                label="Nombre"
                 name="name"
-                autoComplete="name"
                 autoFocus
               />
 
               <TextInput
                 variant="outlined"
                 margin="normal"
-                required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Correo electrónico"
                 name="email"
-                autoComplete="email"
               />
               <TextInput
                 variant="outlined"
                 margin="normal"
-                required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Contraseña"
                 type="password"
                 id="password"
+              />
+              <TextInput
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="confirmPassword"
+                label="Confirmar contraseña"
+                type="password"
+                id="confirmPassword"
               />
 
               <TextInput
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                id="map"
+                id="direction"
                 label="Dirección"
-                name="map"
+                name="direction"
                 onChange={(e) => {
                   hanldeUbication(e.target.value)
                 }}
               />
               <RegisterMap text={ubication} />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Registrarse
-              </Button>
+              <div className={classes.submitContainer}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Registrarse
+                </Button>
+              </div>
             </Form>
           )}
         </Formik>
@@ -168,3 +172,32 @@ const FormLogic = () => {
     </Container>
   )
 }
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(1),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  submitContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  intro: {
+    display: 'flex',
+    alignItems: 'center',
+    columnGap: '1rem',
+  },
+}))

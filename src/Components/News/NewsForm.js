@@ -199,7 +199,7 @@ const NewsForm = () => {
           touched,
         }) => (
           <Container>
-            <Box sx={{ boxShadow: 5, p: 5 }}>
+            <Box sx={{ boxShadow: 5, p: 5, background: 'white' }}>
               {previewImgUploaded || news.image ? (
                 <img
                   style={{ maxWidth: '100%' }}

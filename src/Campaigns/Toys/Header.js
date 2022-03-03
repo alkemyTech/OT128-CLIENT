@@ -9,7 +9,7 @@ const Header = () => {
   const isMatchTablet = useBreakPoints('(min-width: 600px)')
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, mt: '-4.4rem' }}>
       <AppBar
         position="static"
         style={{
@@ -57,7 +57,7 @@ const Header = () => {
                 m: 'auto',
               }}
             >
-              Eslogan ejemplo.
+              Jugate!
             </Typography>
           )}
         </Toolbar>

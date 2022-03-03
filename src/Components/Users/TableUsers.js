@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '../Spinner'
 import InputSearchUsers from './InputSearchUser'
+import { deleteUserThunk } from '../../features/backofficeUsers/usersReducer'
 
 const TableUsers = () => {
   const dispatch = useDispatch()
@@ -15,7 +16,7 @@ const TableUsers = () => {
 
   // function call to delete user
   const deleteUser = (params) => {
-    console.log('action->', params.field, 'id->', params.id)
+    dispatch(deleteUserThunk(params.id))
   }
 
   // set table

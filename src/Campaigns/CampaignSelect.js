@@ -16,6 +16,7 @@ const CampaignSelect = () => {
             className={styles.imgcard}
             width="100%"
             src="/images/campaña numero 1.png"
+            alt=""
           />
         </Link>
       </Box>
@@ -25,6 +26,7 @@ const CampaignSelect = () => {
             className={styles.imgcard}
             width="100%"
             src="/images/campaña numero 2.png"
+            alt=""
           />
         </Link>
       </Box>

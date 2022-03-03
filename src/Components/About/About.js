@@ -5,16 +5,7 @@ import { alertServiceError } from '../AlertService'
 import Spinner from '../Spinner'
 import { Title } from '../Title'
 import { MembersList } from '../Members/MembersList'
-import {
-  LinkedinCompanyProfile,
-  LinkedinFollowCompany,
-  LinkedinLogin,
-  LinkedinAddProfile,
-  LinkedinProfile,
-  LinkedinShare,
-  TwitterButton,
-  TwitterTweet,
-} from 'react-social-plugins'
+import { LinkedinFollowCompany } from 'react-social-plugins'
 import { Helmet } from 'react-helmet'
 
 const About = ({ title }) => {
@@ -62,8 +53,9 @@ const About = ({ title }) => {
           lang: es_AR
         </script>
       </Helmet>
+      <img src="images/nosotros.png" width="100%" alt="nosotros" />
       <Container style={{ textAlign: 'center' }}>
-        <Title image={data?.logo}>Nosotros</Title>
+        {/* <Title>Nosotros</Title> */}
         {/* <Box>
         </Box> */}
         <Grid container sx={{ my: '60px', width: '100%' }}>
@@ -138,11 +130,6 @@ const About = ({ title }) => {
           </Grid>
         </Grid>
         <MembersList />
-        {/* <link
-          type="IN/FollowCompany"
-          data-id={3144678}
-          data-counter="bottom"
-        ></link> */}
       </Container>
     </>
   )

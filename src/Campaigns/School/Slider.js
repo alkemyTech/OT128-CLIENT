@@ -7,19 +7,19 @@ const Slider = () => {
   const items = [
     {
       name: 'Imagen Campaña #1',
-      text: 'Texto al pie de la imagen ejemplo #1 campaña escolar',
+      text: 'Bienvenido a nuestra campaña de utiles escolares!',
       image:
         'https://drive.google.com/uc?export=view&id=1qEqvRfz1jifFZlAySvPcto7ajvpcMwlC',
     },
     {
       name: 'Imagen Campaña #2',
-      text: 'Texto al pie de la imagen ejemplo #2 campaña escolar',
+      text: 'Brindamos el apoyo escolar que muchos de nuestros niños necesitan',
       image:
         'https://drive.google.com/uc?export=view&id=1N5x1Fw7IVcbHtw7AJF0-weg-HhXTekoF',
     },
     {
       name: 'Imagen Campaña #3',
-      text: 'Texto al pie de la imagen ejemplo #3 campaña escolar',
+      text: 'Colectivamente vamos a lograr avances culturales',
       image:
         'https://drive.google.com/uc?export=view&id=1EfWmYnA2R49ZW8anbMT9Hg2J02pVT5D9',
     },

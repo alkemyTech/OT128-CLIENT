@@ -29,6 +29,7 @@ const Content = () => {
       container
       spacing={1}
       style={{ background: isTV && 'rgba(7, 34, 39, .1)' }}
+      id="grid-campaign"
     >
       <Grid item xs={12}>
         <Paper elevation={5} className="date-container">
@@ -46,30 +47,32 @@ const Content = () => {
       <Grid style={{ padding: '20px' }} item xs={12} md={5}>
         <main>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            tincidunt posuere vehicula. Curabitur nec auctor tortor. Donec nec
-            suscipit enim, et congue felis. Integer non commodo metus. Donec
-            finibus, eros nec volutpat tincidunt, nibh sem bibendum libero, in
-            ultricies sem risus non nibh. Proin dictum, arcu dapibus tincidunt
-            viverra, nibh nunc pharetra nibh, a mattis tellus elit eu purus.
-            Vivamus eget sollicitudin ipsum. Suspendisse eget sem pellentesque,
-            gravida nisi vel, gravida neque. Interdum et malesuada fames ac ante
-            ipsum primis in faucibus. Quisque semper tellus dolor, tincidunt
-            gravida augue volutpat non. Vestibulum dapibus non massa vitae
-            mollis. Integer et nisl quis diam commodo elementum. Cras in mauris
-            purus. Pellentesque iaculis est in justo suscipit, eu dignissim
-            mauris ultrices. Fusce molestie ornare orci.
+            Es indudable la importancia del juego en el desarrollo del niño, no
+            sólo por su carácter lúdico sino también por sus aportaciones a las
+            distintas áreas del desarrollo. Al jugar el niño pone en marcha
+            muchas habilidades cognitivas, motoras, sociales y emocionales, al
+            tiempo que se divierte. El juego le permite al niño conocerse más a
+            sí mismo y también, a través de él, conoce el mundo que le rodea.
           </p>
           <p>
-            Pellentesque habitant morbi tristique senectus et netus et malesuada
-            fames ac turpis egestas. Nunc rhoncus ligula id nibh aliquam, ac
-            rutrum tortor pellentesque. Donec quis mi tempus, tempus nulla quis,
-            scelerisque erat. Pellentesque eu gravida risus. Vestibulum sed
-            pellentesque nisl. Donec ut nisl quis mauris iaculis molestie.
-            Vivamus at turpis sodales, commodo risus eu, venenatis libero. Nulla
-            eget dapibus mauris, a porta lacus. Vestibulum a tincidunt nulla.
-            Duis a rutrum elit. Fusce metus eros, porta sit amet viverra a,
-            aliquet sit amet ipsum.
+            Jugando, el niño/a aprende porque obtiene nuevas experiencias,
+            porque es una oportunidad de cometer aciertos y errores, de aplicar
+            sus conocimientos y de resolver problemas. El juego estimula el
+            desarrollo de las capacidades de pensamiento, de la creatividad
+            infantil, y crea zonas potenciales de aprendizaje.
+          </p>
+          <p>
+            En el plano intelectual, el desarrollo del juego de simulación o
+            ficción incorpora muchas tendencias del desarrollo cognitivo, todas
+            ellas relacionadas con el desarrollo de un pensamiento menos
+            concreto y más coordinado.
+          </p>
+          <p>
+            A través del juego nuestros hijos toman conciencia de sí mismos y
+            del mundo que les rodea. Jugar contribuye su bienestar físico,
+            emocional, cognitivo y social. A nivel fisico, el juego contribuye
+            al: Aprendizaje y desarrollo de las habilidades motrices básicas:
+            andar, correr, saltar, girar, tomar y lanzar.
           </p>
         </main>
       </Grid>
@@ -83,7 +86,7 @@ const Content = () => {
                 height: '50vh',
                 width: '100%',
                 padding: '20px',
-                backgroundImage: 'url("/images/blog-img-02.jpg")',
+                backgroundImage: 'url("/images/campaña_juguetes_1.jpg")',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
@@ -95,7 +98,7 @@ const Content = () => {
                 height: '50vh',
                 width: '100%',
                 padding: '20px',
-                backgroundImage: 'url("/images/blog-img-02.jpg")',
+                backgroundImage: 'url("/images/campaña_juguetes_2.jpg")',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',

@@ -29,6 +29,7 @@ const Content = () => {
       container
       spacing={1}
       style={{ background: isTV && 'rgba(7, 34, 39, .1)' }}
+      id="grid-campaign"
     >
       <Grid item xs={12}>
         <Paper elevation={5} className="date-container">
@@ -46,30 +47,25 @@ const Content = () => {
       <Grid style={{ padding: '20px' }} item xs={12} md={5}>
         <main>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            tincidunt posuere vehicula. Curabitur nec auctor tortor. Donec nec
-            suscipit enim, et congue felis. Integer non commodo metus. Donec
-            finibus, eros nec volutpat tincidunt, nibh sem bibendum libero, in
-            ultricies sem risus non nibh. Proin dictum, arcu dapibus tincidunt
-            viverra, nibh nunc pharetra nibh, a mattis tellus elit eu purus.
-            Vivamus eget sollicitudin ipsum. Suspendisse eget sem pellentesque,
-            gravida nisi vel, gravida neque. Interdum et malesuada fames ac ante
-            ipsum primis in faucibus. Quisque semper tellus dolor, tincidunt
-            gravida augue volutpat non. Vestibulum dapibus non massa vitae
-            mollis. Integer et nisl quis diam commodo elementum. Cras in mauris
-            purus. Pellentesque iaculis est in justo suscipit, eu dignissim
-            mauris ultrices. Fusce molestie ornare orci.
+            Apostamos a la superación individual pero también colectiva. A
+            través de la mejor herramienta que es la educación. Sabemos que tu
+            ayuda nos beneficia a todos. Especialmente a los más vulnerables.
+            Evitando que la marginalidad económica sea un obstáculo para la
+            evolución de cada persona. Estamos totalmente convencidos que la
+            salida es por ésta vía. Por eso nos vemos en la obligación de
+            encontrar alternativas para construir. Porque solo juntos vamos a
+            avanzar juntos en igualdad de condiciones.. Porque sólo
+            colectivamente vamos a lograr avances culturales, que en definitiva
+            son los valores más preciados y los que más rédito como sociedad nos
+            favorecen. Te agredecemos de antemano por haber tomado un poco de tu
+            tiempo en unirte a nosotros. Y a esta campaña de Ayuda escolar.
           </p>
           <p>
-            Pellentesque habitant morbi tristique senectus et netus et malesuada
-            fames ac turpis egestas. Nunc rhoncus ligula id nibh aliquam, ac
-            rutrum tortor pellentesque. Donec quis mi tempus, tempus nulla quis,
-            scelerisque erat. Pellentesque eu gravida risus. Vestibulum sed
-            pellentesque nisl. Donec ut nisl quis mauris iaculis molestie.
-            Vivamus at turpis sodales, commodo risus eu, venenatis libero. Nulla
-            eget dapibus mauris, a porta lacus. Vestibulum a tincidunt nulla.
-            Duis a rutrum elit. Fusce metus eros, porta sit amet viverra a,
-            aliquet sit amet ipsum.
+            La solidaridad es un acto de dignidad, no es caridad, no se da desde
+            arriba, es un acto fraternal en un igualdad de condiciones. Y
+            necesitamos empatía para salir de falsos dilemas. Estamos juntos en
+            ésto. Y nos llena de satisfacción saber que entendés nuestra
+            posición. Caminemos juntos hacia un futuro mejor.
           </p>
         </main>
       </Grid>
@@ -83,7 +79,7 @@ const Content = () => {
                 height: '50vh',
                 width: '100%',
                 padding: '20px',
-                backgroundImage: 'url("/images/blog-img-02.jpg")',
+                backgroundImage: 'url("/images/campaña_escolar_1.jpg")',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
@@ -95,7 +91,7 @@ const Content = () => {
                 height: '50vh',
                 width: '100%',
                 padding: '20px',
-                backgroundImage: 'url("/images/blog-img-02.jpg")',
+                backgroundImage: 'url("/images/campaña_escolar_2.jpg")',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',

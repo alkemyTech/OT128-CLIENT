@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
+  deleteCategories,
   getCategories,
   searchCategories,
 } from '../../Services/apiServices/categoriesApiService'
@@ -28,6 +29,18 @@ export const searchCategory = createAsyncThunk(
   async (val) => {
     try {
       const response = await searchCategories(val)
+      return response.data
+    } catch (error) {
+      throw new Error(error)
+    }
+  },
+)
+
+export const deleteCategoryThunk = createAsyncThunk(
+  'category/deleteCategoryThunk',
+  async (val) => {
+    try {
+      const response = await deleteCategories(val)
       return response.data
     } catch (error) {
       throw new Error(error)
@@ -64,6 +77,20 @@ export const categoriesSlice = createSlice({
         state.loader = false
       })
       .addCase(searchCategory.rejected, (state, action) => {
+        state.errorMsg = action.error.message
+        state.status = 'error'
+        state.loader = false
+      })
+
+      .addCase(deleteCategoryThunk.pending, (state) => {
+        state.status = 'pending'
+        state.loader = true
+      })
+      .addCase(deleteCategoryThunk.fulfilled, (state, action) => {
+        state.status = 'idle'
+        state.loader = false
+      })
+      .addCase(deleteCategoryThunk.rejected, (state, action) => {
         state.errorMsg = action.error.message
         state.status = 'error'
         state.loader = false

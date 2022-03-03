@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import {
+  deleteUsers,
   getUsers,
   searchUsers,
 } from '../../Services/apiServices/usersApiService'
@@ -34,6 +35,18 @@ export const searchUsersThunk = createAsyncThunk(
   },
 )
 
+export const deleteUserThunk = createAsyncThunk(
+  'users/deleteUserThunk',
+  async (val) => {
+    try {
+      const response = await deleteUsers(val)
+      return response.data
+    } catch {
+      throw new Error()
+    }
+  },
+)
+
 export const usersReducer = createSlice({
   name: 'backofficeUsers',
   initialState,
@@ -62,6 +75,19 @@ export const usersReducer = createSlice({
         state.loader = false
       })
       .addCase(searchUsersThunk.rejected, (state, action) => {
+        state.errorMsg = action.error.message
+        state.status = 'error'
+        state.loader = false
+      })
+      .addCase(deleteUserThunk.pending, (state) => {
+        state.status = 'pending'
+        state.loader = true
+      })
+      .addCase(deleteUserThunk.fulfilled, (state, action) => {
+        state.status = 'idle'
+        state.loader = false
+      })
+      .addCase(deleteUserThunk.rejected, (state, action) => {
         state.errorMsg = action.error.message
         state.status = 'error'
         state.loader = false

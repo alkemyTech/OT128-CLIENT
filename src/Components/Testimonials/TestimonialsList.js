@@ -41,7 +41,7 @@ const TestimonialsList = ({ from }) => {
       {state.loader ? (
         <SkeletonArticle />
       ) : (
-        <Box sx={{ mb: '100px' }}>
+        <>
           {' '}
           <Box sx={{ pb: 4, textAlign: 'center' }}>
             <Typography variant="h4" gutterBottom component="div">
@@ -49,7 +49,7 @@ const TestimonialsList = ({ from }) => {
             </Typography>
           </Box>
           <Grid
-            sx={{ justifyContent: 'space-evenly' }}
+            sx={{ justifyContent: 'space-evenly', mb: '100px' }}
             container
             rows={{ xs: 1, sm: 8, md: 6 }}
             spacing={{ xs: 2, md: 3 }}
@@ -74,7 +74,7 @@ const TestimonialsList = ({ from }) => {
               </Box>
             )}
           </Grid>
-        </Box>
+        </>
       )}
     </>
   )

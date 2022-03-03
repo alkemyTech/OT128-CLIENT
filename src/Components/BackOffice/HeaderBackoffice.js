@@ -21,7 +21,7 @@ const HeaderBackoffice = () => {
   const isMatchDesktop = useMediaQuery(theme.breakpoints.up('desktop'))
 
   return (
-    <Box sx={{ flexGrow: 1, boxShadow: 0 }}>
+    <Box sx={{ flexGrow: 1, boxShadow: 0, mt: '-4.4rem' }}>
       <AppBar
         position="relative"
         style={{

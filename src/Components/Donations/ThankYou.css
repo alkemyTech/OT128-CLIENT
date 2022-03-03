@@ -1,26 +1,23 @@
+.tenkiuH3 {
+  font-weight: lighter;
+  font-style: initial;
+  color: #080707;
+  text-transform: uppercase;
+  letter-spacing: -15px;
+  display: inline-block;
+  margin: 0 0.5rem;
+  text-align-last: center;
+  animation: bounce; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2s; /* don't forget to set a duration! */
+}
 
-  .tenkiuH3 {
-
-
-font-weight: normal;
-font-style: initial;
-	color: #080707;
-	text-transform: uppercase;
-	letter-spacing: -15px;
-	display: inline-block;
-	margin: 0 0.5rem;
-	text-align-last: center;
-	animation: bounce; /* referring directly to the animation's @keyframe declaration */
-	animation-duration: 2s; /* don't forget to set a duration! */
-  }
-  
-  .animate__animated{
-	letter-spacing: 11px;
-	  display: block;
-	text-align-last: center;
- margin: 20px 0 22px 0;
-	font-size: 70px;
-	line-height: 80px;
-	color: #171b1b;
-	text-shadow: 0 13.36px 8.896px #77ec85,0 -2px 1px #1d2727;
+.animate__animated {
+  letter-spacing: 11px;
+  display: block;
+  text-align-last: center;
+  margin: 20px 0 22px 0;
+  font-size: 60px;
+  line-height: 80px;
+  color: #171b1b;
+  text-shadow: 0 13.36px 8.896px #77ec85, 0 -2px 1px #1d2727;
 }

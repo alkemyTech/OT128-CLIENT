@@ -14,9 +14,10 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
-import { fetchMember } from '../../features/members/membersReducer'
+import { fetchMember, resetStatus } from '../../features/members/membersReducer'
 import { deleteMembers } from '../../Services/apiServices/membersApiService'
 import { alertServiceConfirm, alertServiceError } from '../AlertService'
+import Spinner from '../Spinner'
 import { MemberSearch } from './MemberSearch'
 
 const MemberRow = ({ member }) => {
@@ -39,7 +40,7 @@ const MemberRow = ({ member }) => {
 
   return (
     <TableRow
-      key={member.name}
+      key={member?.name}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
       <TableCell component="th" scope="row">
@@ -75,8 +76,9 @@ const MemberRow = ({ member }) => {
 const MembersScreen = () => {
   const dispatch = useDispatch()
 
-  const { status, members, errMsg } = useSelector((state) => state.members)
-
+  const { status, members, errMsg, loader } = useSelector(
+    (state) => state.members,
+  )
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchMember())
@@ -87,7 +89,9 @@ const MembersScreen = () => {
     }
   }, [dispatch, status, errMsg])
 
-  return (
+  return loader ? (
+    <Spinner />
+  ) : (
     <Container>
       <MemberSearch />
       <TableContainer
@@ -113,9 +117,10 @@ const MembersScreen = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {members.map((member) => (
-              <MemberRow key={member.id} member={member} />
-            ))}
+            {members &&
+              members.map((member) => (
+                <MemberRow key={member.id} member={member} />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

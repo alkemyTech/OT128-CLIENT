@@ -5,12 +5,26 @@ import {
   getRole,
 } from '../../Services/apiServices/authApiService'
 
+const tokenActive = localStorage.getItem('token')
+
+const userActive = localStorage.getItem('user_active')
+
+const roleActive = localStorage.getItem('role_active')
+
 const initialState = {
   status: '',
-  token: false,
+  token: tokenActive || false,
+  isAuthenticated: tokenActive ? true : false,
+  user: userActive ? JSON.parse(userActive) : false,
+  role: roleActive || false,
+}
+
+const logOutState = {
+  status: '',
+  token: '',
   isAuthenticated: false,
-  user: {},
-  role: undefined,
+  user: '',
+  role: '',
 }
 
 //Export to RegisterForm submitHandle => catch Error
@@ -65,9 +79,11 @@ export const authReducer = createSlice({
   name: 'authentication',
   initialState,
   reducers: {
-    userLogout: (state) => {
+    userLogout: () => {
       localStorage.removeItem('token')
-      return initialState
+      localStorage.removeItem('user_active')
+      localStorage.removeItem('role_active')
+      return logOutState
     },
   },
   extraReducers: (builder) => {
@@ -96,6 +112,10 @@ export const authReducer = createSlice({
         state.token = action.payload.data.token
         state.isAuthenticated = true
         localStorage.setItem('token', action.payload.data.token)
+        localStorage.setItem(
+          'user_active',
+          JSON.stringify(action.payload.data.user),
+        )
       })
       .addCase(userLogin.rejected, (state, action) => {
         state.status = 'error'
@@ -108,6 +128,7 @@ export const authReducer = createSlice({
       .addCase(getUserRole.fulfilled, (state, action) => {
         state.status = 'fulfilled'
         state.role = action.payload.data.description
+        localStorage.setItem('role_active', action.payload.data.description)
       })
       .addCase(getUserRole.rejected, (state, action) => {
         state.status = action.payload

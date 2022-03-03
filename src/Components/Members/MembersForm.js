@@ -14,22 +14,26 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { SUPPORTED_FORMATS } from '../../utils/supportedFormatsImg'
 import {
-  fetchMember,
   postMemberRedux,
   putMemberRedux,
+  resetStatus,
 } from '../../features/members/membersReducer'
 import { toBase64 } from '../../utils/toBase64'
+import { getMembers } from '../../Services/apiServices/membersApiService'
+import getBase64FromUrl from '../../utils/apiToBase64'
 
 const MembersForm = () => {
   const state = useSelector((state) => state.members)
   const dispatch = useDispatch()
 
-  // const { id } = useParams()
-  let id
+  const { id } = useParams()
   const history = useHistory()
 
+  const [members, setMembers] = useState({})
+  const [loader, setLoader] = useState(false)
   const [editable, setEditable] = useState(false)
-  const [memberImg, setMemberImg] = useState(null)
+  const [memberImg, setMemberImg] = useState('')
+  const [urlImage, setUrlImage] = useState('')
   const [previewMemberImg, setPreviewMemberImg] = useState(null)
 
   useEffect(() => {
@@ -45,17 +49,30 @@ const MembersForm = () => {
   useEffect(() => {
     if (!id) return
     ;(async () => {
-      dispatch(fetchMember(id))
-      if (state.status === 'error') {
+      setLoader(true)
+
+      const response = await getMembers(id)
+      if (response.error) {
         alertServiceError(
-          state.errMsg,
+          response.message,
           'No se pudo obtener la información solicitada',
         )
         setEditable(false)
         history.push('/backoffice/members')
-      } else {
-        setEditable(true)
       }
+
+      const dataMembers = response.data?.data
+
+      if (dataMembers) {
+        setMembers(dataMembers)
+        setEditable(true)
+      } else {
+        alertServiceError('No se pudo cargar el miembro buscado', 'ID inválido')
+        history.push('/backoffice/members')
+      }
+
+      setLoader(false)
+      setUrlImage(await getBase64FromUrl(members.image))
     })()
   }, [history, id])
 
@@ -80,6 +97,7 @@ const MembersForm = () => {
     if (state.status === 'error') {
       alertServiceError(state.errMsg, 'Se produjo un error, intente nuevamente')
     } else {
+      dispatch(resetStatus())
       history.push('/backoffice/members')
     }
   }
@@ -113,15 +131,19 @@ const MembersForm = () => {
       )
       .required('Ingresar al menos un link de redes sociales'),
   })
-  return (
+  return loader ? (
+    <Box sx={{ mt: '4rem' }}>
+      <Spinner />
+    </Box>
+  ) : (
     <Formik
       enableReinitialize
       initialValues={{
-        name: state.members.name || '',
-        image: state.members.image || '',
-        // description: state.members.description || '',
-        facebookUrl: state.members.facebookUrl || '',
-        linkedinUrl: state.members.linkedinUrl || '',
+        name: members.name || '',
+        image: urlImage || '',
+        description: members.description || '',
+        facebookUrl: members.facebookUrl || '',
+        linkedinUrl: members.linkedinUrl || '',
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
@@ -138,12 +160,12 @@ const MembersForm = () => {
         touched,
       }) => (
         <Container>
-          <Box sx={{ boxShadow: 5, p: 5, mt: 2 }}>
+          <Box sx={{ boxShadow: 5, p: 5, mt: 2, backgroundColor: 'white' }}>
             <h1>{editable ? 'Editar Miembro' : 'Crear Miembro'}</h1>
-            {previewMemberImg || state.members.image ? (
+            {previewMemberImg || urlImage ? (
               <img
                 style={{ maxWidth: '100%' }}
-                src={previewMemberImg || state.members.image}
+                src={previewMemberImg || urlImage}
                 alt={state.members.name}
               />
             ) : null}

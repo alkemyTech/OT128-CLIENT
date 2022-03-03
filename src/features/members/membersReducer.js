@@ -66,6 +66,11 @@ export const putMemberRedux = createAsyncThunk(
 export const membersSlice = createSlice({
   name: 'members',
   initialState,
+  reducers: {
+    resetStatus: (state) => {
+      state.status = 'idle'
+    },
+  },
   extraReducers: (builder) => {
     builder
       // fetch members reducers
@@ -106,7 +111,7 @@ export const membersSlice = createSlice({
         state.loader = true
       })
       .addCase(postMemberRedux.fulfilled, (state, action) => {
-        state.status = action.payload.message
+        state.status = 'idle'
         state.loader = false
       })
       .addCase(postMemberRedux.rejected, (state, action) => {
@@ -121,7 +126,7 @@ export const membersSlice = createSlice({
         state.loader = true
       })
       .addCase(putMemberRedux.fulfilled, (state, action) => {
-        state.status = action.payload.message
+        state.status = 'idle'
         state.loader = false
       })
       .addCase(putMemberRedux.rejected, (state, action) => {
@@ -133,3 +138,4 @@ export const membersSlice = createSlice({
 })
 
 export default membersSlice.reducer
+export const { resetStatus } = membersSlice.actions

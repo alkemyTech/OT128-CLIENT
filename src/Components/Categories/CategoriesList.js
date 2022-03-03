@@ -7,16 +7,17 @@ import { alertServiceConfirm } from '../AlertService'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '../Spinner'
+import { deleteCategoryThunk } from '../../features/categories/categoriesReducer'
 
 const CategoriesList = () => {
-  // function call to delete category
-  const deleteCategory = (params) => {
-    console.log('action->', params.field, 'id->', params.id)
-  }
-
   // Retrieve data from api
   const dispatch = useDispatch()
   const state = useSelector((state) => state.categories)
+
+  // function call to delete category
+  const deleteCategory = (params) => {
+    dispatch(deleteCategoryThunk(params.id))
+  }
 
   // set table
   const columns = [

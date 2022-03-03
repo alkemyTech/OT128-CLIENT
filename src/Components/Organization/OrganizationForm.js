@@ -1,94 +1,123 @@
-import "../../Components/FormStyles.css";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { ErrorMessage, Formik } from "formik";
-import * as Yup from "yup";
-import { Container, TextField, Box, Button, Input, Icon } from "@mui/material";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import { useEffect, useState } from "react";
+import '../../Components/FormStyles.css'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { ErrorMessage, Formik } from 'formik'
+import * as Yup from 'yup'
+import { Container, TextField, Box, Button, Input, Icon } from '@mui/material'
+import FacebookIcon from '@mui/icons-material/Facebook'
+import InstagramIcon from '@mui/icons-material/Instagram'
+import TwitterIcon from '@mui/icons-material/Twitter'
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import { useEffect, useState } from 'react'
+import { getOrganizationData } from '../../features/organization/organizationReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { alertServiceError } from '../AlertService'
+import { useHistory } from 'react-router-dom'
+import getBase64FromUrl from '../../utils/apiToBase64'
+import Spinner from '../Spinner'
 
 const OrganizationForm = () => {
-  const [logo, setLogo] = useState("");
-  const [previewLogo, setPreviewLogo] = useState(null);
+  const [logo, setLogo] = useState('')
+  const [previewLogo, setPreviewLogo] = useState(null)
+  const [urlImg, setUrlImg] = useState('')
+
+  const state = useSelector((state) => state.organization)
+  const dispatch = useDispatch()
+  const history = useHistory()
 
   useEffect(() => {
-    if (!logo) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewLogo(reader.result);
-    };
-    reader.readAsDataURL(logo);
-  }, [logo]);
+    ;(async () => {
+      dispatch(getOrganizationData())
+      if (state.status === 'error') {
+        alertServiceError(
+          state.errorMsg,
+          'No se pudo obtener la información solicitada',
+        )
+        history.push('/backoffice/organization')
+      }
+      setUrlImg(await getBase64FromUrl(state.logo))
+    })()
+  }, [])
+  console.log(state.data)
 
-  const SUPPORTED_FORMATS = ["image/jpg", "image/png", "image/jpeg"];
+  useEffect(() => {
+    if (!logo) return
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setPreviewLogo(reader.result)
+    }
+    reader.readAsDataURL(logo)
+  }, [logo])
+
+  const SUPPORTED_FORMATS = ['image/jpg', 'image/png', 'image/jpeg']
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("El campo nombre es obligatorio."),
+    name: Yup.string().required('El campo nombre es obligatorio.'),
 
     shortDescription: Yup.string().required(
-      "El campo descripción es obligatorio."
+      'El campo descripción es obligatorio.',
     ),
 
     longDescription: Yup.string()
       .min(1)
-      .max(150, "No se pueden exceder los 150 caracteres.")
-      .required("El campo descripción extendida es obligatorio."),
+      .max(150, 'No se pueden exceder los 150 caracteres.')
+      .required('El campo descripción extendida es obligatorio.'),
 
     logo: Yup.mixed()
-      .required("ingrese una imagen para el logo.")
+      .required('ingrese una imagen para el logo.')
       .test(
-        "fileType",
-        "Formato incorrecto. Sólo se aceptan archivos .jpg, .jpeg, .png",
+        'fileType',
+        'Formato incorrecto. Sólo se aceptan archivos .jpg, .jpeg, .png',
         (value) => {
-          if (value) return SUPPORTED_FORMATS.includes(value.type);
-        }
+          if (value) return SUPPORTED_FORMATS.includes(value.type)
+        },
       ),
     facebookUrl: Yup.string()
       .matches(
         /(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?/,
-        "Ingrese un una direccion url correcta."
+        'Ingrese un una direccion url correcta.',
       )
-      .required("Ingresar al menos un link de redes sociales"),
+      .required('Ingresar al menos un link de redes sociales'),
     instagramUrl: Yup.string()
       .matches(
-        /(?:(?:http|https):\/\/)?(?:www.)?instagram.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?/,
-        "Ingrese un una direccion url correcta."
+        /(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am|instagr.com)\/(\w+)/gim,
+        'Ingrese un una direccion url correcta.',
       )
-      .required("Ingresar al menos un link de redes sociales"),
+      .required('Ingresar al menos un link de redes sociales'),
     twitterUrl: Yup.string()
       .matches(
-        /(?:(?:http|https):\/\/)?(?:www.)?twitter.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?/,
-        "Ingrese un una direccion url correcta."
+        /http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/,
+        'Ingrese un una direccion url correcta.',
       )
-      .required("Ingresar al menos un link de redes sociales"),
+      .required('Ingresar al menos un link de redes sociales'),
     linkedinUrl: Yup.string()
       .matches(
-        /(?:(?:http|https):\/\/)?(?:www.)?linkedin.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?/,
-        "Ingrese un una direccion url correcta."
+        /^(http(s)?:\/\/)?([\w]+\.)?linkedin\.com\/(pub|in|profile)/gm,
+        'Ingrese un una direccion url correcta.',
       )
-      .required("Ingresar al menos un link de redes sociales"),
-  });
+      .required('Ingresar al menos un link de redes sociales'),
+  })
 
-  return (
+  return state.loader ? (
+    <Spinner />
+  ) : (
     <Formik
       enableReinitialize
       initialValues={{
-        name: "",
-        logo: "",
-        shortDescription: "",
-        longDescription: "Ingrese una descripción extendida de la organización",
-        facebookUrl: "",
-        twitterUrl: "",
-        instagramUrl: "",
-        linkedinUrl: "",
+        name: state.data.name || '',
+        logo: urlImg || '',
+        shortDescription: state.data.short_description || '',
+        longDescription:
+          state.data.long_description ||
+          'Ingrese una descripción extendida de la organización',
+        facebookUrl: state.data.facebook_url || '',
+        twitterUrl: state.data.twitter_url || '',
+        instagramUrl: state.data.instagram_url || '',
+        linkedinUrl: state.data.linkedin_url || '',
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        console.log(values);
-        // acá se hace el envío de datos
+        console.log(values)
       }}
     >
       {({
@@ -101,8 +130,16 @@ const OrganizationForm = () => {
         touched,
       }) => (
         <Container>
-          <Box sx={{ boxShadow: 5, p: 5, mt: 2 }}>
+          <Box sx={{ boxShadow: 5, p: 5, mt: 2, background: 'white' }}>
             <h1>Cambiar datos de Organización</h1>
+
+            {previewLogo || state.data.logo ? (
+              <img
+                style={{ maxWidth: '100%' }}
+                src={previewLogo || state.data.logo}
+                alt=""
+              />
+            ) : null}
 
             <form onSubmit={handleSubmit}>
               <TextField
@@ -136,8 +173,8 @@ const OrganizationForm = () => {
                 editor={ClassicEditor}
                 data={values.longDescription}
                 onChange={(event, editor) => {
-                  const data = editor.getData();
-                  setFieldValue("longDescription", data);
+                  const data = editor.getData()
+                  setFieldValue('longDescription', data)
                 }}
               />
               <ErrorMessage component="small" name="longDescription" />
@@ -150,11 +187,11 @@ const OrganizationForm = () => {
                   multiple
                   type="file"
                   onChange={(e) => {
-                    const file = e.currentTarget.files[0];
-                    setFieldValue("logo", file);
-                    setLogo(file);
+                    const file = e.currentTarget.files[0]
+                    setFieldValue('logo', file)
+                    setLogo(file)
                   }}
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                 />
 
                 <Button fullWidth variant="outlined" component="span">
@@ -162,10 +199,6 @@ const OrganizationForm = () => {
                 </Button>
                 <ErrorMessage component="small" name="logo" />
               </label>
-
-              {previewLogo ? (
-                <img style={{ maxWidth: "100%" }} src={previewLogo} alt="" />
-              ) : null}
 
               <TextField
                 InputProps={{ startAdornment: <FacebookIcon /> }}
@@ -235,7 +268,7 @@ const OrganizationForm = () => {
         </Container>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default OrganizationForm;
+export default OrganizationForm
